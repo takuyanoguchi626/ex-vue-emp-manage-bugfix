@@ -62,7 +62,7 @@
             </tr>
             <tr>
               <th nowrap>給料</th>
-              <td><span v-html="currentEmployee.salary"></span>円</td>
+              <td><span v-html="currentEmployee.commaSalary"></span>円</td>
             </tr>
             <tr>
               <th nowrap>特性</th>

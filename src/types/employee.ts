@@ -34,11 +34,14 @@ export class Employee {
     private _dependentsCount: number
   ) {}
 
+  get commaSalary(): string {
+    return this.salary.toLocaleString();
+  }
   // get formatHireDate(): string {
   //   return format(this.hireDate, "yyyy年MM月dd日");
   // }
 
-  public get formatHireDate(): string {
+  get formatHireDate(): string {
     return format(this.hireDate, "yyyy年MM月dd日");
   }
 
