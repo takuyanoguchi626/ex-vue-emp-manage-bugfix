@@ -12,6 +12,7 @@
               required
             />
             <label for="last_name">姓</label>
+            {{ alertLastName }}
           </div>
           <div class="input-field col s6">
             <input
@@ -22,6 +23,7 @@
               required
             />
             <label for="first_name">名</label>
+            {{ alertFirstName }}
           </div>
         </div>
         <div class="row">
@@ -34,6 +36,7 @@
               required
             />
             <label for="email">メールアドレス</label>
+            {{ alertEmail }}
           </div>
         </div>
         <div class="row">
@@ -47,6 +50,7 @@
               required
             />
             <label for="password">パスワード</label>
+            {{ alertPassword }}
           </div>
         </div>
         <div class="row">
@@ -84,6 +88,16 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  //入力値チェック（姓）
+  private alertLastName = "";
+  //入力値チェック（名）
+  private alertFirstName = "";
+  //入力値チェック（メールアドレス）
+  private alertEmail = "";
+  //入力値チェック（パスワード）
+  private alertPassword = "";
+  //エラーチェック
+  private errorCheck = false;
 
   /**
    * 管理者情報を登録する.
@@ -93,6 +107,32 @@ export default class RegisterAdmin extends Vue {
    * @returns Promiseオブジェクト
    */
   async registerAdmin(): Promise<void> {
+    this.alertLastName = "";
+    this.alertFirstName = "";
+    this.alertEmail = "";
+    this.alertPassword = "";
+    this.errorCheck = false;
+
+    if (this.lastName === "") {
+      this.alertLastName = "姓が入力されていません";
+      this.errorCheck = true;
+    }
+    if (this.firstName === "") {
+      this.alertFirstName = "名が入力されていません";
+      this.errorCheck = true;
+    }
+    if (this.mailAddress === "") {
+      this.alertEmail = "メールアドレスが入力されていません";
+      this.errorCheck = true;
+    }
+    if (this.password === "") {
+      this.alertPassword = "パスワードが入力されていません";
+      this.errorCheck = true;
+    }
+    if (this.errorCheck === true) {
+      return;
+    }
+
     // 管理者登録処理
     const response = await axios.post(`${config.EMP_WEBAPI_URL}/insert`, {
       name: this.lastName + " " + this.firstName,
