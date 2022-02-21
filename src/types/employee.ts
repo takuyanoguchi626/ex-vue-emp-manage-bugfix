@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 /**
  * 従業員情報を表すクラス.
  *
@@ -31,6 +33,17 @@ export class Employee {
     // 扶養人数
     private _dependentsCount: number
   ) {}
+
+  get commaSalary(): string {
+    return this.salary.toLocaleString();
+  }
+  // get formatHireDate(): string {
+  //   return format(this.hireDate, "yyyy年MM月dd日");
+  // }
+
+  get formatHireDate(): string {
+    return format(this.hireDate, "yyyy年MM月dd日");
+  }
 
   public get id(): number {
     return this._id;
