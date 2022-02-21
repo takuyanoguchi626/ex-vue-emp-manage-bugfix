@@ -21,7 +21,7 @@
             <tr>
               <th nowrap>従業員名</th>
               <td>
-                <span v-html="currentEmployee.name"></span>
+                <span v-text="currentEmployee.name"></span>
               </td>
             </tr>
             <tr>
@@ -33,7 +33,7 @@
             <tr>
               <th nowrap>性別</th>
               <td>
-                <span v-html="currentEmployee.gender"></span>
+                <span v-text="currentEmployee.gender"></span>
               </td>
             </tr>
             <tr>
@@ -43,35 +43,35 @@
             <tr>
               <th nowrap>メールアドレス</th>
               <td>
-                <span v-html="currentEmployee.mailAddress"></span>
+                <span v-text="currentEmployee.mailAddress"></span>
               </td>
             </tr>
             <tr>
               <th nowrap>郵便番号</th>
               <td>
-                <span v-html="currentEmployee.zipCode"></span>
+                <span v-text="currentEmployee.zipCode"></span>
               </td>
             </tr>
             <tr>
               <th nowrap>住所</th>
               <td>
-                <span v-html="currentEmployee.address"></span>
+                <span v-text="currentEmployee.address"></span>
               </td>
             </tr>
             <tr>
               <th nowrap>電話番号</th>
               <td>
-                <span v-html="currentEmployee.telephone"></span>
+                <span v-text="currentEmployee.telephone"></span>
               </td>
             </tr>
             <tr>
               <th nowrap>給料</th>
-              <td><span v-html="currentEmployee.commaSalary"></span>円</td>
+              <td><span v-text="currentEmployee.commaSalary"></span>円</td>
             </tr>
             <tr>
               <th nowrap>特性</th>
               <td>
-                <span v-html="currentEmployee.characteristics"></span>
+                <span v-text="currentEmployee.characteristics"></span>
               </td>
             </tr>
             <tr>
