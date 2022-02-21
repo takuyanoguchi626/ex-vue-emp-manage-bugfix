@@ -57,6 +57,20 @@
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s12">
+            <input
+              id="checkPassword"
+              type="password"
+              class="validate"
+              minlength="8"
+              v-model="checkPassword"
+              required
+            />
+            <label for="checkPassword">確認用パスワード</label>
+            {{ getAlertCheckPassword }}
+          </div>
+        </div>
+        <div class="row">
           <div class="input-field col s6">
             <button
               class="btn btn-large btn-register waves-effect waves-light"
@@ -91,6 +105,8 @@ export default class RegisterAdmin extends Vue {
   private mailAddress = "";
   // パスワード
   private password = "";
+  //確認用パスワード
+  private checkPassword = "";
   //入力値チェック（姓）
   private alertLastName = "";
   //入力値チェック（名）
@@ -99,10 +115,20 @@ export default class RegisterAdmin extends Vue {
   private alertEmail = "";
   //入力値チェック（パスワード）
   private alertPassword = "";
+  //入力値チェック（確認用パスワード）
+  private alertCheckPassword = "";
   //エラーチェック
   private errorCheck = false;
   //エラーメッセージ
   private errorMessage = "";
+
+  get getAlertCheckPassword(): string {
+    this.alertCheckPassword = "";
+    if (this.password !== this.checkPassword) {
+      this.alertCheckPassword = "パスワードが一致しません";
+    }
+    return this.alertCheckPassword;
+  }
 
   /**
    * 管理者情報を登録する.
@@ -132,6 +158,9 @@ export default class RegisterAdmin extends Vue {
     }
     if (this.password === "") {
       this.alertPassword = "パスワードが入力されていません";
+      this.errorCheck = true;
+    }
+    if (this.password !== this.checkPassword) {
       this.errorCheck = true;
     }
     if (this.errorCheck === true) {
