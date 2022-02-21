@@ -20,7 +20,10 @@
         </thead>
 
         <tbody>
-          <tr v-for="employee of currentEmployeeList" v-bind:key="employee.id">
+          <tr
+            v-for="employee of employeeListOrderHireDate"
+            v-bind:key="employee.id"
+          >
             <td>
               <router-link :to="'/employeeDetail/' + employee.id">{{
                 employee.name
@@ -47,6 +50,18 @@ export default class EmployeeList extends Vue {
   private currentEmployeeList: Array<Employee> = [];
   // 従業員数
   private employeeCount = 0;
+
+  /**
+   * 従業員一覧を入社日順に並べ替えて取得する.
+   *
+   * @returns - 入社日順に並べ替えた従業員一覧
+   */
+  get employeeListOrderHireDate(): Array<Employee> {
+    this.currentEmployeeList.sort(function(a, b) {
+      return a.hireDate > b.hireDate ? 1 : -1;
+    });
+    return this.currentEmployeeList;
+  }
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
