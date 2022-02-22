@@ -15,8 +15,10 @@
         <button class="searchBtn" type="button" @click="searchEmployee(search)">
           検索
         </button>
-        {{ searchAllEmployeeMessage }}
       </div>
+    </div>
+    <div class="searchErrorMessage">
+      {{ searchErrorMessage }}
     </div>
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
@@ -59,6 +61,19 @@ export default class EmployeeList extends Vue {
   private employeeCount = 0;
   //検索内容
   private search = "";
+  //検索結果が見つからなかった時のメッセージ
+  private searchErrorMessage = "";
+
+  searchEmployee(search: string): void {
+    this.searchErrorMessage = "";
+    this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
+      search
+    );
+    if (this.currentEmployeeList.length === 0) {
+      this.currentEmployeeList = this.$store.getters.getAllEmployees;
+      this.searchErrorMessage = "１件もありませんでしたので全件表示します";
+    }
+  }
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
@@ -105,5 +120,9 @@ export default class EmployeeList extends Vue {
   width: 60px;
   height: 30px;
   margin: 10px;
+}
+
+.searchErrorMessage {
+  text-align: center;
 }
 </style>
