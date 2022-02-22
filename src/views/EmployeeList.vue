@@ -8,6 +8,16 @@
         </div>
       </div>
     </nav>
+    <div class="row" id="searchForm">
+      <div class="input-field col s12 searchForm">
+        <label for="search">従業員検索</label>
+        <input type="text" id="search" v-model="search" />
+        <button class="searchBtn" type="button" @click="searchEmployee(search)">
+          検索
+        </button>
+        {{ searchAllEmployeeMessage }}
+      </div>
+    </div>
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
       <table class="striped">
@@ -47,6 +57,8 @@ export default class EmployeeList extends Vue {
   private currentEmployeeList: Array<Employee> = [];
   // 従業員数
   private employeeCount = 0;
+  //検索内容
+  private search = "";
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
@@ -78,15 +90,20 @@ export default class EmployeeList extends Vue {
 </script>
 
 <style scoped>
-.searchForm {
+#searchForm {
   margin-bottom: 20px;
-  width: 450px;
+  width: 250px;
   margin: 0 auto;
+}
+
+.searchForm {
+  display: flex;
 }
 
 .searchBtn {
   display: block;
-  width: 150px;
-  margin: 0 auto;
+  width: 60px;
+  height: 30px;
+  margin: 10px;
 }
 </style>
