@@ -64,6 +64,11 @@ export default class EmployeeList extends Vue {
   //検索結果が見つからなかった時のメッセージ
   private searchErrorMessage = "";
 
+  /**
+   * 従業員を検索する.
+   *
+   * @params - 検索内容
+   */
   searchEmployee(search: string): void {
     this.searchErrorMessage = "";
     this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
