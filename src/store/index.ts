@@ -120,6 +120,15 @@ export default new Vuex.Store({
         );
       };
     },
+    /**
+     * 従業員一覧のページ数を求める.
+     *
+     * @param state - ステート
+     * @returns 従業員一覧の10人ごとに表示した場合のページ数
+     */
+    getEmployeeListPages(state): number {
+      return Math.ceil(state.employees.length / 10);
+    },
   }, // end getters
   modules: {}, // end modules
 });
