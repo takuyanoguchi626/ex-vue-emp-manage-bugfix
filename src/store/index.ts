@@ -86,7 +86,7 @@ export default new Vuex.Store({
      * 全従業員一覧を返す.
      *
      * @param state ステート
-     * @returns 従業員一覧情報「
+     * @returns 従業員一覧情報
      */
     getAllEmployees(state) {
       return state.employees;
@@ -121,6 +121,12 @@ export default new Vuex.Store({
       };
     },
 
+    /**
+     * ステートの従業員一覧を入社日順に並べ替えをして取得.
+     *
+     * @param state - ステート
+     * @returns 入社日順に並び替えをした従業員一覧
+     */
     getemployeeListOrderHireDate(state): Array<Employee> {
       state.employees.sort(function(a, b) {
         return a.hireDate > b.hireDate ? 1 : -1;
