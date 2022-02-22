@@ -120,6 +120,13 @@ export default new Vuex.Store({
         );
       };
     },
+
+    getemployeeListOrderHireDate(state): Array<Employee> {
+      state.employees.sort(function(a, b) {
+        return a.hireDate > b.hireDate ? 1 : -1;
+      });
+      return state.employees;
+    },
   }, // end getters
   modules: {}, // end modules
 });
