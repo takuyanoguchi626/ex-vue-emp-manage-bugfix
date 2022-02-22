@@ -8,6 +8,18 @@
         </div>
       </div>
     </nav>
+    <div class="row" id="searchForm">
+      <div class="input-field col s12 searchForm">
+        <label for="search">従業員検索</label>
+        <input type="text" id="search" v-model="search" />
+        <button class="searchBtn" type="button" @click="searchEmployee(search)">
+          検索
+        </button>
+      </div>
+    </div>
+    <div class="searchErrorMessage">
+      {{ searchErrorMessage }}
+    </div>
     <div>従業員数:{{ getEmployeeCount }}人</div>
     <div class="row">
       <table class="striped">
@@ -58,6 +70,26 @@ export default class EmployeeList extends Vue {
   private employeeCount = 0;
   //表示する従業員一覧
   private showEmployeeList = Array<Employee>();
+  //検索内容
+  private search = "";
+  //検索結果が見つからなかった時のメッセージ
+  private searchErrorMessage = "";
+
+  /**
+   * 従業員を検索する.
+   *
+   * @params - 検索内容
+   */
+  searchEmployee(search: string): void {
+    this.searchErrorMessage = "";
+    this.currentEmployeeList = this.$store.getters.getSearchEmployeeByName(
+      search
+    );
+    if (this.currentEmployeeList.length === 0) {
+      this.currentEmployeeList = this.$store.getters.getAllEmployees;
+      this.searchErrorMessage = "１件もありませんでしたので全件表示します";
+    }
+  }
 
   /**
    * Vuexストアのアクション経由で非同期でWebAPIから従業員一覧を取得する.
@@ -71,6 +103,9 @@ export default class EmployeeList extends Vue {
    */
   async created(): Promise<void> {
     await this.$store.dispatch("getEmployeeList");
+
+    //従業員一覧を入社日順に並び替えている
+    this.$store.commit("employeeListOrderHireDate");
 
     // 従業員一覧情報をVuexストアから取得
     // 非同期で外部APIから取得しているので、async/await使わないとGetterで取得できない
@@ -113,15 +148,24 @@ export default class EmployeeList extends Vue {
 </script>
 
 <style scoped>
-.searchForm {
+#searchForm {
   margin-bottom: 20px;
-  width: 450px;
+  width: 250px;
   margin: 0 auto;
+}
+
+.searchForm {
+  display: flex;
 }
 
 .searchBtn {
   display: block;
-  width: 150px;
-  margin: 0 auto;
+  width: 60px;
+  height: 30px;
+  margin: 10px;
+}
+
+.searchErrorMessage {
+  text-align: center;
 }
 </style>

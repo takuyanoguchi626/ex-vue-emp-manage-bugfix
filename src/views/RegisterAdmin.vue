@@ -71,6 +71,33 @@
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s12">
+            <input
+              id="postCode"
+              type="number"
+              class="validate"
+              maxlength="7"
+              v-model="postCode"
+              required
+            />
+            <label for="postCode">郵便番号</label>
+            <button type="button" @click="searchAddress">住所検索</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input
+              id="address"
+              type="text"
+              class="validate"
+              v-model="address"
+              required
+            />
+            <label for="address">住所</label>
+            {{ alertAddress }}
+          </div>
+        </div>
+        <div class="row">
           <div class="input-field col s6">
             <button
               class="btn btn-large btn-register waves-effect waves-light"
@@ -107,6 +134,10 @@ export default class RegisterAdmin extends Vue {
   private password = "";
   //確認用パスワード
   private checkPassword = "";
+  //郵便番号
+  private postCode = "";
+  //住所
+  private address = "";
   //入力値チェック（姓）
   private alertLastName = "";
   //入力値チェック（名）
@@ -117,6 +148,8 @@ export default class RegisterAdmin extends Vue {
   private alertPassword = "";
   //入力値チェック（確認用パスワード）
   private alertCheckPassword = "";
+  //入力値チェック（住所）
+  private alertAddress = "";
   //エラーチェック
   private errorCheck = false;
   //エラーメッセージ
@@ -131,6 +164,20 @@ export default class RegisterAdmin extends Vue {
   }
 
   /**
+   * 住所を検索する.
+   *
+   */
+  async searchAddress(): Promise<void> {
+    const response = await axios.get(
+      `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${this.postCode}`
+    );
+    console.dir(JSON.stringify(response));
+    const addressArr = response.data.results[0];
+    this.address =
+      addressArr.address1 + addressArr.address2 + addressArr.address3;
+  }
+
+  /**
    * 管理者情報を登録する.
    *
    * @remarks
@@ -142,6 +189,7 @@ export default class RegisterAdmin extends Vue {
     this.alertFirstName = "";
     this.alertEmail = "";
     this.alertPassword = "";
+    this.alertAddress = "";
     this.errorCheck = false;
 
     if (this.lastName === "") {
@@ -163,6 +211,10 @@ export default class RegisterAdmin extends Vue {
     if (this.password !== this.checkPassword) {
       this.errorCheck = true;
     }
+    if (this.address === "") {
+      this.alertPassword = "住所が入力されていません";
+      this.errorCheck = true;
+    }
     if (this.errorCheck === true) {
       return;
     }
@@ -172,6 +224,7 @@ export default class RegisterAdmin extends Vue {
       name: this.lastName + " " + this.firstName,
       mailAddress: this.mailAddress,
       password: this.password,
+      address: this.address,
     });
     console.dir("response:" + JSON.stringify(response));
     const statusMessage = response.data.status;
