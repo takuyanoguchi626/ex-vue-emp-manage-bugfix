@@ -71,6 +71,18 @@ export default new Vuex.Store({
         );
       }
     },
+
+    /**
+     * ステートの従業員一覧を入社日順に並べ替えをして取得.
+     *
+     * @param state - ステート
+     * @returns 入社日順に並び替えをした従業員一覧
+     */
+    employeeListOrderHireDate(state): void {
+      state.employees.sort(function(a, b) {
+        return a.hireDate > b.hireDate ? 1 : -1;
+      });
+    },
   }, // end mutations
   getters: {
     /**
@@ -119,19 +131,6 @@ export default new Vuex.Store({
           employee.name.includes(name)
         );
       };
-    },
-
-    /**
-     * ステートの従業員一覧を入社日順に並べ替えをして取得.
-     *
-     * @param state - ステート
-     * @returns 入社日順に並び替えをした従業員一覧
-     */
-    getemployeeListOrderHireDate(state): Array<Employee> {
-      state.employees.sort(function(a, b) {
-        return a.hireDate > b.hireDate ? 1 : -1;
-      });
-      return state.employees;
     },
   }, // end getters
   modules: {}, // end modules

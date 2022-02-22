@@ -61,10 +61,13 @@ export default class EmployeeList extends Vue {
   async created(): Promise<void> {
     await this.$store.dispatch("getEmployeeList");
 
+    //従業員一覧を入社日順に並び替えている
+    this.$store.commit("employeeListOrderHireDate");
+
     // 従業員一覧情報をVuexストアから取得
     // 非同期で外部APIから取得しているので、async/await使わないとGetterで取得できない
     // ページング機能実装のため最初の10件に絞り込み
-    this.currentEmployeeList = this.$store.getters.getemployeeListOrderHireDate;
+    this.currentEmployeeList = this.$store.getters.getAllEmployees;
   }
   /**
    * 現在表示されている従業員一覧の数を返す.
