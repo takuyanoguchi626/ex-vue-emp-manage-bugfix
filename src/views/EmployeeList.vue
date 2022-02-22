@@ -32,7 +32,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="employee of currentEmployeeList" v-bind:key="employee.id">
+          <tr v-for="employee of showEmployeeList" v-bind:key="employee.id">
             <td>
               <router-link :to="'/employeeDetail/' + employee.id">{{
                 employee.name
@@ -42,6 +42,15 @@
             <td>{{ employee.dependentsCount }}人</td>
           </tr>
         </tbody>
+      </table>
+      <table>
+        <tr>
+          <td v-for="pageCount of employeeListPages" :key="pageCount">
+            <button type="button" @click="pageChange(pageCount)">
+              {{ pageCount }}
+            </button>
+          </td>
+        </tr>
       </table>
     </div>
   </div>
@@ -59,6 +68,8 @@ export default class EmployeeList extends Vue {
   private currentEmployeeList: Array<Employee> = [];
   // 従業員数
   private employeeCount = 0;
+  //表示する従業員一覧
+  private showEmployeeList = Array<Employee>();
   //検索内容
   private search = "";
   //検索結果が見つからなかった時のメッセージ
@@ -100,6 +111,7 @@ export default class EmployeeList extends Vue {
     // 非同期で外部APIから取得しているので、async/await使わないとGetterで取得できない
     // ページング機能実装のため最初の10件に絞り込み
     this.currentEmployeeList = this.$store.getters.getAllEmployees;
+    this.pageChange(1);
   }
   /**
    * 現在表示されている従業員一覧の数を返す.
@@ -108,6 +120,29 @@ export default class EmployeeList extends Vue {
    */
   get getEmployeeCount(): number {
     return this.currentEmployeeList.length;
+  }
+
+  get employeeListPages(): number {
+    return this.$store.getters.getEmployeeListPages;
+  }
+
+  /**
+   * ページを切り替える.
+   *
+   * @params ページ数
+   */
+  pageChange(page: number): void {
+    this.showEmployeeList = Array<Employee>();
+    //表示するページの最初の従業員のcurrentEmployeeListの中での添え字
+    let firstEmployeeOfpage = (page - 1) * 10;
+    //表示するページの最後の従業員のcurrentEmployeeListの中での添え字
+    let lastEmployeeOfpage = (page - 1) * 10 + 9;
+    for (let i = firstEmployeeOfpage; i <= lastEmployeeOfpage; i++) {
+      if (this.currentEmployeeList[i] === undefined) {
+        return;
+      }
+      this.showEmployeeList.push(this.currentEmployeeList[i]);
+    }
   }
 }
 </script>
