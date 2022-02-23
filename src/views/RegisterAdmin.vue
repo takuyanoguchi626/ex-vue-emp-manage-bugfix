@@ -151,7 +151,7 @@ export default class RegisterAdmin extends Vue {
   //入力値チェック（住所）
   private alertAddress = "";
   //エラーチェック
-  private errorCheck = false;
+  private hasErrors = false;
   //エラーメッセージ
   private errorMessage = "";
 
@@ -190,32 +190,32 @@ export default class RegisterAdmin extends Vue {
     this.alertEmail = "";
     this.alertPassword = "";
     this.alertAddress = "";
-    this.errorCheck = false;
+    this.hasErrors = false;
 
     if (this.lastName === "") {
       this.alertLastName = "姓が入力されていません";
-      this.errorCheck = true;
+      this.hasErrors = true;
     }
     if (this.firstName === "") {
       this.alertFirstName = "名が入力されていません";
-      this.errorCheck = true;
+      this.hasErrors = true;
     }
     if (this.mailAddress === "") {
       this.alertEmail = "メールアドレスが入力されていません";
-      this.errorCheck = true;
+      this.hasErrors = true;
     }
     if (this.password === "") {
       this.alertPassword = "パスワードが入力されていません";
-      this.errorCheck = true;
+      this.hasErrors = true;
     }
     if (this.password !== this.checkPassword) {
-      this.errorCheck = true;
+      this.hasErrors = true;
     }
     if (this.address === "") {
       this.alertPassword = "住所が入力されていません";
-      this.errorCheck = true;
+      this.hasErrors = true;
     }
-    if (this.errorCheck === true) {
+    if (this.hasErrors === true) {
       return;
     }
 
