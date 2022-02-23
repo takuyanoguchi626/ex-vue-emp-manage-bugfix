@@ -91,6 +91,11 @@ export default class EmployeeList extends Vue {
    * 取得してからゲットするため、async awaitを利用している。
    */
   async created(): Promise<void> {
+    //ログインしていなかったらログイン画面に遷移する
+    if (this.$store.getters.getLogin === false) {
+      this.$router.push("/loginAdmin");
+    }
+
     await this.$store.dispatch("getEmployeeList");
 
     //従業員一覧を入社日順に並び替えている

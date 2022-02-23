@@ -4,6 +4,7 @@ import { Employee } from "@/types/employee";
 import config from "@/const/const";
 // 使うためには「npm install axios --save」を行う
 import axios from "axios";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   state: {
     totalEmployeeCount: 0,
     employees: new Array<Employee>(),
+    loginStatus: false,
   }, // end state
   actions: {
     /**
@@ -71,7 +73,6 @@ export default new Vuex.Store({
         );
       }
     },
-
     /**
      * ステートの従業員一覧を入社日順に並べ替えをして取得.
      *
@@ -82,6 +83,22 @@ export default new Vuex.Store({
       state.employees.sort(function(a, b) {
         return a.hireDate > b.hireDate ? 1 : -1;
       });
+    },
+    /**
+     * ログインする.
+     *
+     * @param state - ステート
+     */
+    login(state): void {
+      state.loginStatus = true;
+    },
+    /**
+     * ログアウトする.
+     *
+     * @param state - ステート
+     */
+    logout(state): void {
+      state.loginStatus = false;
     },
   }, // end mutations
   getters: {
@@ -132,6 +149,22 @@ export default new Vuex.Store({
         );
       };
     },
+    /**
+     * ログインステータスを取得する.
+     *
+     * @param state - ステート
+     * @returns ログインステータス
+     */
+    getLogin(state): boolean {
+      return state.loginStatus;
+    },
   }, // end getters
   modules: {}, // end modules
+  plugins: [
+    //ブラウザ上のsessyonnsutoreにステートの情報を保存する
+    createPersistedState({
+      key: "employeeList",
+      storage: window.sessionStorage,
+    }),
+  ], // end plugins
 });
